@@ -1,0 +1,35 @@
+# 내부 스크롤 내리기 https://stackoverflow.com/questions/41744368/scrolling-to-element-using-webdriver/41744403 and https://stackoverflow.com/questions/34562095/scrollintoview-vs-movetoelement
+
+    from selenium import webdriver
+
+
+    url = "www.example.com"
+
+    driver = webdriver.Chrome()
+    driver.get(url)
+
+        for i in range(1, 100):
+            flag = driver.find_element_by_xpath('/html/body/div[2]/div/section/div[2]/div[1]/div/div[2]/div/div[2]/div/div/div[1]/div[{}]'.format(i))
+            driver.execute_script("arguments[0].scrollIntoView();", flag)
+
+
+# list를 string으로 변환 - python list to sring
+
+    naver_list_string = ''
+
+    for i in naver_list:
+        naver_list_string += str(i)+","
+
+
+# UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-2: ordinal not in range(128)
+    https://ourcstory.tistory.com/39
+        파이썬으로 구현을 하다보면 한번씩은 겪는 UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)
+        파이썬은 기본적으로 unicode를 사용한다. 그렇기 때문에 한글을 사용하기 위해서는  unicode를 utf-8로 변환해서만 사용할 수 있다.  변경하는 방법은 아주 간단하다. unicode를 utf8로 encoding을 해주면 문제를 해결할 수 있다. 
+
+        예를 들어서 웹페이지에서 한글 텍스트를 입력받은 값을 website.text라고 가정하자. 아래 내용은 website.text를 print문으로 출력했을때 UnicodeEncodeError가 발생한다. python 내장함수인 type으로 website.site의 형태를 보면  unicode임을 알 수 있다. 
+
+        unicode인 website.text를 'utf8'로 encode하면 text의 type은 unicode에서 str으로 변환이 되고, 출력을 제대로 할 수 있다. 
+
+        ex) naver_list_string = naver_list_string.encode('utf8')
+
+
