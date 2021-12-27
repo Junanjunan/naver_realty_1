@@ -1,5 +1,6 @@
 import time, smtplib, ssl
 from selenium import webdriver
+from address import address_set
 
 
 wating_sec = 0.5
@@ -13,53 +14,50 @@ url_list = [url_Guui_villa, url_Guui_onetworoom, url_Jayang_villa, url_Jayang_on
 
 driver = webdriver.Chrome()
 
-while True:
+naver_set = {0,}
+my_set = address_set
 
-    naver_set = {0,}
-    my_set = {'서울시 광진구 구의동 80-53', '구의동 221-35', '자양동 651-31', '서울시 광진구 자양동 680-10'}
-
-    for url in url_list:
-        driver.get(url)
-        driver.find_element_by_link_text("최신순").click()
-        time.sleep(wating_sec)
-        
-        for i in range(1, 5):
+for url in url_list:
+    driver.get(url)
+    driver.find_element_by_link_text("최신순").click()
+    time.sleep(wating_sec)
+    
+    try:
+        for i in range(1, 10000):
             try: 
                 driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div/div[2]/a'.format(i)).click()
             except:
                 driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div'.format(i)).click()
             time.sleep(wating_sec)
-            print(driver.find_element_by_xpath('//*[@id="detailContents1"]/div[1]/table/tbody/tr[1]/td').text)
+            
             naver_set.add(driver.find_element_by_xpath('//*[@id="detailContents1"]/div[1]/table/tbody/tr[1]/td').text)
             flag = driver.find_element_by_xpath('/html/body/div[2]/div/section/div[2]/div[1]/div/div[2]/div/div[2]/div/div/div[1]/div[{}]'.format(i))
             driver.execute_script("arguments[0].scrollIntoView();", flag)
             time.sleep(wating_sec)
-            print(naver_set)
+    except:
+        pass
 
-    naver_set_string = ''
-
-
-    for i in naver_set:
-        if (i in my_set):
-            print(i, " exists")
-            naver_set_string += str(i)+", "
+naver_set_string = ''
 
 
-    naver_set_string = naver_set_string.encode('utf8')
+for i in naver_set:
+    if (i in my_set):
+        naver_set_string += str(i)+"\n"
 
 
-    port = 465
-    password = 'mlhwdtmjcvzmugof'
+naver_set_string = naver_set_string.encode('utf8')
 
-    context = ssl.create_default_context()
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-        server.login("taltalmailing@gmail.com", password)
-        server.sendmail(
-            'taltalmailing@gmail.com', 
-            'jjj1305@hanmail.net', 
-            naver_set_string)
+port = 465
+password = 'mlhwdtmjcvzmugof'
 
-    # driver.close()
+context = ssl.create_default_context()
 
-    time.sleep(10)
+with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+    server.login("taltalmailing@gmail.com", password)
+    server.sendmail(
+        'taltalmailing@gmail.com', 
+        'jjj1305@hanmail.net', 
+        naver_set_string)
+
+driver.close()
