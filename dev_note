@@ -48,3 +48,19 @@
             server.login("taltalmailing@gmail.com", password)
             server.sendmail('taltalmailing@gmail.com', 'jjj1305@hanmail.net', "Hi")
             server.sendmail('taltalmailing@gmail.com', 'kjhwnsghksk@naver.com', "Hi")
+
+
+# Get current URL from browser using python
+    from selenium import webdriver
+    driver = webdriver.Firefox()
+    print (driver.current_url)
+
+
+# 파이썬 웹크롤링 iframe 페이지 Selenium으로 처리하는 방법
+    https://hogni.tistory.com/105
+
+
+# f-string in python3
+    https://bluese05.tistory.com/70
+        f'Hi, I am {name}, I am {job} and I like to use {language}. I am {sex} and I was {married}. Nice to meet you.' 
+    >>> 'Hi, I am song, I am s/w engineer and I like to use python. I am male and I was married. Nice to meet you.'
