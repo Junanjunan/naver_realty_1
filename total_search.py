@@ -77,7 +77,7 @@ for url in url_list:
             time.sleep(wating_sec)
     except:
         pass
-    
+
 print("-"*100)
 print(total_dict)
 
@@ -97,10 +97,10 @@ for i in total_dict:
     # total_dict_string += f'{i}, {f_room}(호), {f_phone}, {f_type}, {f_price}, {f_spec}, {f_realtor} \n'
     total_dict_string += f'{i}, \n{f_room}(호), \n{f_phone}, \n{f_type}, \n{f_price}, \n{f_spec}, \n{f_realtor} \n\n'
     # total_dict_string += f_url -- url 전송이 안됨...
-    print(total_dict_string)
 
 total_dict_string = total_dict_string.encode('utf8')
 
+print(total_dict_string)
 
 port = 465
 password = 'mlhwdtmjcvzmugof'
