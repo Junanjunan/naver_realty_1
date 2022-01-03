@@ -64,3 +64,12 @@
     https://bluese05.tistory.com/70
         f'Hi, I am {name}, I am {job} and I like to use {language}. I am {sex} and I was {married}. Nice to meet you.' 
     >>> 'Hi, I am song, I am s/w engineer and I like to use python. I am male and I was married. Nice to meet you.'
+
+
+# dictionary for loop
+    a_dict = {'a': 1, 'b':2, 'c': 3}
+
+    for a in a_dict:
+        print(a)             -> a: key
+        print(a_dict[a])     -> a_dict[a]: value (a key의 value)
+        print("-----")
