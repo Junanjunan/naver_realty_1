@@ -4,7 +4,7 @@ from selenium import webdriver
 from address import my_list_dict
 
 
-wating_sec = 0.5
+wating_sec = 0.2
 long_waiting_sec = 5
 
 target_day = datetime.date.today().strftime('%y.%m.%d.')
