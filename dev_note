@@ -67,6 +67,16 @@
             attachments=filename,
         )
 
+    # Sending Email with Multiple Attachments in Yagmail
+        https://mailtrap.io/blog/yagmail-tutorial/#Sending-Email-with-Multiple-Attachments-in-Yagmail
+
+        yag.send(
+            to='user1@gmail.com', 
+            subject='Sending Attachments', 
+            contents='Please find the images attached', 
+            attachments=['Desktop/File 1/image1.png','Desktop/File 1/gantt2.png','Desktop/File 1/gantt3.png']
+            )
+
 
 # Get current URL from browser using python
     from selenium import webdriver
