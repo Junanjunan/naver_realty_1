@@ -1,8 +1,8 @@
 import time, smtplib, ssl
 from selenium import webdriver
 from urllib.parse import urlsplit, parse_qs
-from address import address_set
-from address1 import my_list_dict
+# from address import address_set
+from address import my_list_dict
 
 
 wating_sec = 0.5

@@ -1,7 +1,7 @@
 import time, datetime, smtplib, ssl
 import pandas as pd
 from selenium import webdriver
-from address1 import my_list_dict
+from address import my_list_dict
 
 
 print(datetime.datetime.now())

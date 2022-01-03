@@ -49,6 +49,24 @@
             server.sendmail('taltalmailing@gmail.com', 'jjj1305@hanmail.net', "Hi")
             server.sendmail('taltalmailing@gmail.com', 'kjhwnsghksk@naver.com', "Hi")
 
+    * using yagmail
+
+        import yagmail
+
+        sender = 'taltalmailing@gmail.com'
+        password = '~~~'
+        receiver = 'jjj1305@hanmail.net'
+        body = "Hello there from Yagmail"
+        filename = "구의빌라.xlsx"
+
+        yag = yagmail.SMTP(sender, password)
+        yag.send(
+            to=receiver,
+            subject="Yagmail test with attachment",
+            contents=body, 
+            attachments=filename,
+        )
+
 
 # Get current URL from browser using python
     from selenium import webdriver
@@ -73,3 +91,58 @@
         print(a)             -> a: key
         print(a_dict[a])     -> a_dict[a]: value (a key의 value)
         print("-----")
+
+
+# add hyperlink to excel sheet created by pandas dataframe to_excel method
+
+    df = pd.DataFrame({'Year': [2000, 2001, 2002, 2003]})
+
+    def make_hyperlink(value):
+        url = "https://custom.url/{}"
+        return '=HYPERLINK("%s", "%s")' % (url.format(value), value)
+
+    df['hyperlink'] = df['Year'].apply(lambda x: make_hyperlink(x))
+
+    df.to_excel("test.xlsx")
+
+        -> '=HYPERLINK("%s", "%s")' % (url.format(value), value) url.format(value) 자리는 url, 뒤 value는 url 대신에 나타날 대표값 의미. 뒤 value 안쓰면 긴 url 그대로 표시
+
+    나:
+            for i in total_dict:
+                df2 = pd.DataFrame([
+                    {
+                        '주소': i,
+                        '광고확인일': total_dict[i]['광고확인일'],
+                        '거래방식': total_dict[i]['거래방식'],
+                        '가격': total_dict[i]['가격'],
+                        '특징': total_dict[i]['특징'],
+                        '중개사': total_dict[i]['중개사'],
+                        'url': '=HYPERLINK("{}")'.format(total_dict[i]['url']),
+                        # '호실': total_dict[i]['호실'],
+                        # '연락처': total_dict[i]['연락처'],
+                    }
+                ])
+                
+                df1 = df1.append(df2)
+            
+            df1.to_excel('{}.xlsx'.format(url))
+
+    또는
+            for i in total_dict:
+                df2 = pd.DataFrame([
+                    {
+                        '주소': i,
+                        '광고확인일': total_dict[i]['광고확인일'],
+                        '거래방식': total_dict[i]['거래방식'],
+                        '가격': total_dict[i]['가격'],
+                        '특징': total_dict[i]['특징'],
+                        '중개사': total_dict[i]['중개사'],
+                        'url': '=HYPERLINK("{}", "{}")'.format(total_dict[i]['url'], i),
+                        # '호실': total_dict[i]['호실'],
+                        # '연락처': total_dict[i]['연락처'],
+                    }
+                ])
+                
+                df1 = df1.append(df2)
+            
+            df1.to_excel('{}.xlsx'.format(url))
