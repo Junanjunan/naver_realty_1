@@ -173,3 +173,19 @@
     그 외 row drop
     https://www.geeksforgeeks.org/python-delete-rows-columns-from-dataframe-using-pandas-drop/?ref=lbp
 
+
+    sample code
+
+    import pandas as pd
+
+    guui_villa = pd.read_excel('구의빌라.xlsx')
+    guui_oneroom = pd.read_excel('구의원룸.xlsx')
+
+    guui_villa.drop([0], inplace=True)
+    guui_oneroom.drop([0], inplace=True)
+
+    new_excel = guui_villa.append(guui_oneroom)
+    
+    new_excel.drop(new_excel.columns[0], axis=1, inplace=True)
+
+    new_excel.to_excel('통합.xlsx')
