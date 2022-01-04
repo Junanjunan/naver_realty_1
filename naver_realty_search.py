@@ -4,7 +4,7 @@ from selenium import webdriver
 from address import my_list_dict
 
 
-wating_sec = 0.2
+wating_sec = 0.5
 long_waiting_sec = 5
 
 target_day = datetime.date.today().strftime('%y.%m.%d.')
@@ -14,7 +14,12 @@ url_Guui_onetworoom = 'https://new.land.naver.com/rooms?ms=37.5434469,127.092473
 url_Jayang_villa = 'https://new.land.naver.com/houses?ms=37.5344483,127.0831475,15&a=VL:DDDGG:JWJT:SGJT:HOJT&e=RETAIL' # 자양동, 빌라 주택, 거래방식: 전체
 url_Jayang_onetworoom = 'https://new.land.naver.com/rooms?ms=37.5348716,127.0787405,15&a=APT:OPST:ABYG:OBYG:GM:OR:VL:DDDGG:JWJT:SGJT:HOJT&e=RETAIL&aa=SMALLSPCRENT' # 자양동, 원투룸, 거래방식: 전체
 url_list = [url_Guui_villa, url_Guui_onetworoom, url_Jayang_villa, url_Jayang_onetworoom]
-url_dict = {'구의빌라': url_Guui_villa, '구의원룸': url_Guui_onetworoom, '자양빌라': url_Jayang_villa, '자양원룸':url_Jayang_onetworoom}
+url_dict = {
+    # '구의빌라': url_Guui_villa, 
+    '구의원룸': url_Guui_onetworoom, 
+    '자양빌라': url_Jayang_villa, 
+    '자양원룸':url_Jayang_onetworoom
+    }
 
 driver = webdriver.Chrome()
 
