@@ -151,6 +151,14 @@ guui_oneroom = pd.read_excel('구의원룸-{}.xlsx'.format(datetime.date.today()
 jayang_villa = pd.read_excel('자양빌라-{}.xlsx'.format(datetime.date.today()))
 jayang_oneroom = pd.read_excel('자양원룸-{}.xlsx'.format(datetime.date.today()))
 
+guui_villa.drop([0], inplace=True)
+guui_oneroom.drop([0], inplace=True)
+jayang_villa.drop([0], inplace=True)
+jayang_oneroom.drop([0], inplace=True)
+
+my_total = guui_villa.append(guui_oneroom).append(jayang_villa).append(jayang_oneroom)
+my_total.drop(my_total.columns[0], axis=1, inplace=True)
+my_total.to_excel('전번매물통합-{}.xlsx'.format(datetime.date.today()))
 
 """ mailing """
 
@@ -167,7 +175,8 @@ filename5 = '전체 구의빌라-{}.xlsx'.format(datetime.date.today())
 filename6 = '전체 구의원룸-{}.xlsx'.format(datetime.date.today())
 filename7 = '전체 자양빌라-{}.xlsx'.format(datetime.date.today())
 filename8 = '전체 자양원룸-{}.xlsx'.format(datetime.date.today())
-filelist = [filename1, filename2, filename3, filename4, filename5, filename6, filename7, filename8]
+filename9 = '전번매물통합-{}.xlsx'.format(datetime.date.today())
+filelist = [filename1, filename2, filename3, filename4, filename5, filename6, filename7, filename8, filename9]
 
 
 yag = yagmail.SMTP(sender, password)

@@ -156,3 +156,20 @@
                 df1 = df1.append(df2)
             
             df1.to_excel('{}.xlsx'.format(url))
+
+
+# pandas: drop column in pandas dataframe
+    https://www.geeksforgeeks.org/how-to-drop-one-or-multiple-columns-in-pandas-dataframe/
+
+    # Remove column name 'A', 'B'
+    df.drop(['A', 'B'], axis = 1) (or df.drop['A', 'B'], axis=1, inplace=True)
+
+    # Remove three columns as index base
+    df.drop(df.columns[[0, 4, 2]], axis = 1, inplace = True)
+
+    # Remove all columns between column index 1 to 3
+    df.drop(df.iloc[:, 1:3], inplace = True, axis = 1)
+
+    그 외 row drop
+    https://www.geeksforgeeks.org/python-delete-rows-columns-from-dataframe-using-pandas-drop/?ref=lbp
+
