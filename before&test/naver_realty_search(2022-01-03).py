@@ -1,15 +1,25 @@
 import time, datetime, yagmail
 import pandas as pd
 from selenium import webdriver
-from urllib import parse
 from address import my_list_dict
-from url_dict import url_dict
 
 
 waiting_sec = 0.5
 long_waiting_sec = 3
 
 target_day = datetime.date.today().strftime('%y.%m.%d.')
+
+url_Guui_villa = 'https://new.land.naver.com/houses?ms=37.5428535,127.0931897,15&a=VL:DDDGG:JWJT:SGJT:HOJT&e=RETAIL' # 구의동, 빌라 주택, 거래방식: 전체
+url_Guui_onetworoom = 'https://new.land.naver.com/rooms?ms=37.5434469,127.0924734,15&a=APT:OPST:ABYG:OBYG:GM:OR:VL:DDDGG:JWJT:SGJT:HOJT&e=RETAIL&aa=SMALLSPCRENT' # 구의동, 원투룸, 거래방식: 전체
+url_Jayang_villa = 'https://new.land.naver.com/houses?ms=37.5344483,127.0831475,15&a=VL:DDDGG:JWJT:SGJT:HOJT&e=RETAIL' # 자양동, 빌라 주택, 거래방식: 전체
+url_Jayang_onetworoom = 'https://new.land.naver.com/rooms?ms=37.5348716,127.0787405,15&a=APT:OPST:ABYG:OBYG:GM:OR:VL:DDDGG:JWJT:SGJT:HOJT&e=RETAIL&aa=SMALLSPCRENT' # 자양동, 원투룸, 거래방식: 전체
+url_list = [url_Guui_villa, url_Guui_onetworoom, url_Jayang_villa, url_Jayang_onetworoom]
+url_dict = {
+    # '구의빌라': url_Guui_villa, 
+    # '구의원룸': url_Guui_onetworoom, 
+    '자양빌라': url_Jayang_villa, 
+    '자양원룸':url_Jayang_onetworoom
+    }
 
 driver = webdriver.Chrome()
 
@@ -25,27 +35,6 @@ for url in url_dict:
         for i in range(1, 10000):
             # if driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div/div[2]/span/em[2]'.format(i)).text == target_day:
             if True:
-
-                parse_result = parse.urlparse(url_dict[url])
-                query_dict = parse.parse_qs(parse_result.query)
-
-                if 'ae' in query_dict.keys():
-                    if query_dict['ae'] == ['ONEROOM']:
-                        room = 1
-                    else:
-                        room = 2
-                elif 'q' in query_dict.keys():
-                    if query_dict['q'] == ['ONEROOM']:
-                        room = 1
-                    elif query_dict['q'] == ['TWOROOM']:
-                        room = 2
-                    elif query_dict['q'] == ['THREEROOM']:
-                        room = 3
-                    else:
-                        room = 4
-                else:
-                    room = '.'
-
                 try:
                     realtor = driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div/div[1]/div/span[2]/a'.format(i)).text
                 except:
@@ -73,7 +62,7 @@ for url in url_dict:
 
                 address = driver.find_element_by_xpath('//*[@id="detailContents1"]/div[1]/table/tbody/tr[1]/td').text
                 
-                naver_list_dict = {address: {'광고확인일':day, '거래방식':type, '가격':price, '방수':room, '특징': spec, '중개사': realtor, 'url': current_url}}
+                naver_list_dict = {address: {'광고확인일':day, '거래방식':type, '가격':price, '특징': spec, '중개사': realtor, 'url': current_url}}
 
                 if (address in my_list_dict) and (naver_list_dict[address]['중개사'] != '연세공인중개사사무소'):
                     my_list_address = my_list_dict.get(address)
@@ -91,36 +80,20 @@ for url in url_dict:
         print(e)
         print("-"*50)
         pass
-    
-    df_excel = pd.DataFrame([
-            {
-                '주소': 'address', 
-                '광고확인일':'update', 
-                '거래방식':'type', 
-                '가격':'price',
-                '방수':'room', 
-                '특징':'spec', 
-                '중개사': 'agent', 
-                '호실':'hosil', 
-                '연락처':'phone',
-                'url': 'url',
-            }
-        ])
 
-    naver_excel = pd.DataFrame([
-            {
-                '주소': 'address', 
-                '광고확인일':'update', 
-                '거래방식':'type', 
-                '가격':'price',
-                '방수':'room', 
-                '특징':'spec', 
-                '중개사': 'agent',
-                'url': 'url',
-            }
-        ])    
-
-    df1 = df_excel
+    df1 = pd.DataFrame([
+        {
+            '주소': 'address', 
+            '광고확인일':'update', 
+            '거래방식':'type', 
+            '가격':'price', 
+            '특징':'spec', 
+            '중개사': 'agent', 
+            'url': 'url', 
+            '호실':'hosil', 
+            '연락처':'phone'
+        }
+    ])
     
     for i in total_dict:
         df2 = pd.DataFrame([
@@ -129,13 +102,11 @@ for url in url_dict:
                 '광고확인일': total_dict[i]['광고확인일'],
                 '거래방식': total_dict[i]['거래방식'],
                 '가격': total_dict[i]['가격'],
-                '방수': total_dict[i]['방수'],
                 '특징': total_dict[i]['특징'],
                 '중개사': total_dict[i]['중개사'],
+                'url': '=HYPERLINK("{}", "{}")'.format(total_dict[i]['url'], i),
                 '호실': total_dict[i]['호실'],
                 '연락처': total_dict[i]['연락처'],
-                # 'url': '=HYPERLINK("{}", "{}")'.format(total_dict[i]['url'], i),
-                'url': total_dict[i]['url'],
             }
         ])
         
@@ -143,7 +114,17 @@ for url in url_dict:
     
     df1.to_excel('{}-{}.xlsx'.format(url, datetime.date.today()))
 
-    df3 = naver_excel
+    df3 = pd.DataFrame([
+        {
+            '주소': 'address', 
+            '광고확인일':'update', 
+            '거래방식':'type', 
+            '가격':'price', 
+            '특징':'spec', 
+            '중개사': 'agent', 
+            'url': 'url'
+        }
+    ])
 
     for i in total_dict_all:
         df4 = pd.DataFrame([
@@ -152,11 +133,9 @@ for url in url_dict:
                 '광고확인일': total_dict_all[i]['광고확인일'],
                 '거래방식': total_dict_all[i]['거래방식'],
                 '가격': total_dict_all[i]['가격'],
-                '방수': total_dict_all[i]['방수'],
                 '특징': total_dict_all[i]['특징'],
                 '중개사': total_dict_all[i]['중개사'],
-                # 'url': '=HYPERLINK("{}", "{}")'.format(total_dict_all[i]['url'], i)
-                'url': total_dict_all[i]['url']
+                'url': '=HYPERLINK("{}", "{}")'.format(total_dict_all[i]['url'], i)
             }
         ])
 
@@ -167,26 +146,11 @@ for url in url_dict:
     time.sleep(long_waiting_sec)
 
 
-file_list = []
-naver_list = []
-for url in url_dict:
-    read_excel = pd.read_excel('{}-{}.xlsx'.format(url, datetime.date.today()))
-    read_excel.drop([0], inplace=True)
-    df_excel = df_excel.append(read_excel)
+guui_villa = pd.read_excel('구의빌라-{}.xlsx'.format(datetime.date.today()))
+guui_oneroom = pd.read_excel('구의원룸-{}.xlsx'.format(datetime.date.today()))
+jayang_villa = pd.read_excel('자양빌라-{}.xlsx'.format(datetime.date.today()))
+jayang_oneroom = pd.read_excel('자양원룸-{}.xlsx'.format(datetime.date.today()))
 
-    naver_read_excel = pd.read_excel('전체 {}-{}.xlsx'.format(url, datetime.date.today()))
-    naver_read_excel.drop([0], inplace=True)
-    naver_excel = naver_excel.append(naver_read_excel)
-
-    file_list.append('{}-{}.xlsx'.format(url, datetime.date.today()))
-    file_list.append('전체 {}-{}.xlsx'.format(url, datetime.date.today()))
-
-
-df_excel.to_excel('전번매물통합-{}.xlsx'.format(datetime.date.today()))
-naver_excel.to_excel('네이버매물통합-{}.xlsx'.format(datetime.date.today()))
-
-file_list.append('전번매물통합-{}.xlsx'.format(datetime.date.today()))
-file_list.append('네이버매물통합-{}.xlsx'.format(datetime.date.today()))
 
 """ mailing """
 
@@ -195,13 +159,23 @@ password = 'mlhwdtmjcvzmugof'
 receiver = 'jjj1305@hanmail.net'
 subject = '네이버매물-{}'.format(datetime.date.today())
 body = '{} 네이버 매물 정리'.format(datetime.date.today())
+filename1 = '구의빌라-{}.xlsx'.format(datetime.date.today())
+filename2 = '구의원룸-{}.xlsx'.format(datetime.date.today())
+filename3 = '자양빌라-{}.xlsx'.format(datetime.date.today())
+filename4 = '자양원룸-{}.xlsx'.format(datetime.date.today())
+filename5 = '전체 구의빌라-{}.xlsx'.format(datetime.date.today())
+filename6 = '전체 구의원룸-{}.xlsx'.format(datetime.date.today())
+filename7 = '전체 자양빌라-{}.xlsx'.format(datetime.date.today())
+filename8 = '전체 자양원룸-{}.xlsx'.format(datetime.date.today())
+filelist = [filename1, filename2, filename3, filename4, filename5, filename6, filename7, filename8]
+
 
 yag = yagmail.SMTP(sender, password)
 yag.send(
     to=receiver,
     subject=subject,
     contents=body, 
-    attachments=file_list
+    attachments=filelist
 )
 
 

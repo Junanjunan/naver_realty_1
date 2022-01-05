@@ -189,3 +189,19 @@
     new_excel.drop(new_excel.columns[0], axis=1, inplace=True)
 
     new_excel.to_excel('통합.xlsx')
+
+
+# python check if dictionary has key
+    print('key1' in dict.keys())
+
+# python url query
+    https://brownbears.tistory.com/501
+
+    from urllib import parse
+
+    parse_result = parse.urlparse(url)
+
+    a = parse.parse_qs(parse_result.query)
+    b = parse.parse_qsl(parse_result.query)
+
+    qs: dict, qsl: list
