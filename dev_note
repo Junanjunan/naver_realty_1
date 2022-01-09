@@ -194,6 +194,7 @@
 # python check if dictionary has key
     print('key1' in dict.keys())
 
+
 # python url query
     https://brownbears.tistory.com/501
 
@@ -205,3 +206,21 @@
     b = parse.parse_qsl(parse_result.query)
 
     qs: dict, qsl: list
+
+
+# python make list by date with pandas
+
+    today = datetime.date.today()
+    
+    today에서 이틀전 날짜 구하기
+        - target_day = today - datetime.timedelta(days=2)
+
+    date_range = pandas.date_range(start=target_day, end=today)
+
+    위의 date_range를 list 형태로 만들기
+        list_range = list(date_range)
+        
+    원하는 날짜 형태로 뽑아서 list로 만들기
+        day_list = []
+        for i in range(0, days+1):
+            day_list.append(date_range[i].strftime('%y.%m.%d.'))

@@ -9,16 +9,7 @@ from url_dict import url_dict
 waiting_sec = 0.5
 long_waiting_sec = 3
 
-today = datetime.date.today()
-days = 4
-target_day = today - datetime.timedelta(days=days)
-date_range = pd.date_range(start = target_day, end = today)
-
-
-day_list = []
-for i in range(0, days+1):
-    day_list.append(date_range[i].strftime('%y.%m.%d.'))
-
+target_day = datetime.date.today().strftime('%y.%m.%d.')
 
 driver = webdriver.Chrome()
 
@@ -32,8 +23,8 @@ for url in url_dict:
     
     try:
         for i in range(1, 10000):
-            if driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div/div[2]/span/em[2]'.format(i)).text in day_list:
-            # if True:
+            # if driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div/div[2]/span/em[2]'.format(i)).text == target_day:
+            if True:
 
                 parse_result = parse.urlparse(url_dict[url])
                 query_dict = parse.parse_qs(parse_result.query)
