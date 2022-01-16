@@ -2,6 +2,7 @@ import time, datetime, yagmail
 import pandas as pd
 from selenium import webdriver
 from urllib import parse
+from address import my_list_dict
 from url_dict import url_dict
 
 
@@ -9,11 +10,10 @@ waiting_sec = 0.5
 long_waiting_sec = 3
 
 today = datetime.date.today()
-days = 5
+days = 2
 target_day = today - datetime.timedelta(days=days)
 date_range = pd.date_range(start = target_day, end = today)
 
-df_total = pd.read_excel('매물 연락처(naver_realty_01).xlsx')                
 
 day_list = []
 for i in range(0, days+1):
@@ -84,19 +84,13 @@ for url in url_dict:
                 
                 naver_list_dict = {address: {'광고확인일':day, '거래방식':type, '가격':price, '방수':room, '특징': spec, '중개사': realtor, 'url': current_url}}
 
-                if (naver_list_dict[address]['중개사'] != '연세공인중개사사무소'):
+                if (address in my_list_dict) and (naver_list_dict[address]['중개사'] != '연세공인중개사사무소'):
+                    my_list_address = my_list_dict.get(address)
+                    naver_list_dict[address].update(my_list_address)
+                    total_dict.update(naver_list_dict)                
                 
-                    if len(df_total.loc[df_total['address'] == address]) != 0:
-                        
-                        df_address = df_total.loc[df_total['address'] == address]
-                        
-                        for i in range(0, len(df_address)):
-                            sample_dict = {df_address.iloc[i]['address']: {'호실': df_address.iloc[i]['hosil'], '연락처': df_address.iloc[i]['owner']}}
-                            naver_list_dict[address].update(sample_dict.get(address))
-                            total_dict.update(naver_list_dict)
-                        
                 total_dict_all.update(naver_list_dict)
-                
+
                 flag = driver.find_element_by_xpath('/html/body/div[2]/div/section/div[2]/div[1]/div/div[2]/div/div[2]/div/div/div[1]/div[{}]'.format(i))
                 driver.execute_script("arguments[0].scrollIntoView();", flag)
 

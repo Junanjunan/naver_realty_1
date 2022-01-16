@@ -224,3 +224,7 @@
         day_list = []
         for i in range(0, days+1):
             day_list.append(date_range[i].strftime('%y.%m.%d.'))
+
+
+# pandas DataFrame index
+    https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=nackji80&logNo=221643048859
