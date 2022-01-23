@@ -9,7 +9,7 @@ waiting_sec = 0.5
 long_waiting_sec = 3
 
 today = datetime.date.today()
-days = 5
+days = 8
 target_day = today - datetime.timedelta(days=days)
 date_range = pd.date_range(start = target_day, end = today)
 
