@@ -9,7 +9,7 @@ waiting_sec = 0.5
 long_waiting_sec = 3
 
 today = datetime.date.today()
-days = 8
+days = 15
 target_day = today - datetime.timedelta(days=days)
 date_range = pd.date_range(start = target_day, end = today)
 
@@ -56,15 +56,15 @@ for url in url_dict:
                     room = '.'
 
                 try:
-                    realtor = driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div/div[1]/div/span[2]/a'.format(i)).text
+                    realtor = driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div/div[1]/div/span[2]/a'.format(i)).text    
                 except:
                     realtor = driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div/div[1]/div/span[2]/span'.format(i)).text
-
+                    
                 try: 
                     driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div/div[2]/a'.format(i)).click()
                 except:
                     driver.find_element_by_xpath('//*[@id="listContents1"]/div/div/div[1]/div[{}]/div'.format(i)).click()
-
+                    
                 time.sleep(waiting_sec)
 
                 current_url = driver.current_url
@@ -90,14 +90,15 @@ for url in url_dict:
                         
                         df_address = df_total.loc[df_total['address'] == address]
                         
-                        for i in range(0, len(df_address)):
-                            sample_dict = {df_address.iloc[i]['address']: {'호실': df_address.iloc[i]['hosil'], '연락처': df_address.iloc[i]['owner']}}
+                        for j in range(0, len(df_address)):
+                            sample_dict = {df_address.iloc[j]['address']: {'호실': df_address.iloc[j]['hosil'], '연락처': df_address.iloc[j]['owner']}}
                             naver_list_dict[address].update(sample_dict.get(address))
                             total_dict.update(naver_list_dict)
                         
                 total_dict_all.update(naver_list_dict)
                 
                 flag = driver.find_element_by_xpath('/html/body/div[2]/div/section/div[2]/div[1]/div/div[2]/div/div[2]/div/div/div[1]/div[{}]'.format(i))
+                
                 driver.execute_script("arguments[0].scrollIntoView();", flag)
 
                 time.sleep(waiting_sec)
