@@ -14,7 +14,7 @@ days = 20
 target_day = today - datetime.timedelta(days=days)
 date_range = pd.date_range(start = target_day, end = today)
 
-df_total = pd.read_excel('매물 연락처(naver_realty_01).xlsx')                
+df_total = pd.read_excel('매물 연락처(naver_realty_01).xlsx')
 
 day_list = []
 for i in range(0, days+1):
