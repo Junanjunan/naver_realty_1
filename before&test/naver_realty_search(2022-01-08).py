@@ -4,6 +4,7 @@ from selenium import webdriver
 from urllib import parse
 from address import my_list_dict
 from url_dict import url_dict
+import os
 
 
 waiting_sec = 0.5
@@ -191,7 +192,7 @@ file_list.append('네이버매물통합-{}.xlsx'.format(datetime.date.today()))
 """ mailing """
 
 sender = 'taltalmailing@gmail.com'
-password = 'mlhwdtmjcvzmugof'
+password = os.environ.get('EMAIL_PASSWORD')
 receiver = 'jjj1305@hanmail.net'
 subject = '네이버매물-{}'.format(datetime.date.today())
 body = '{} 네이버 매물 정리'.format(datetime.date.today())

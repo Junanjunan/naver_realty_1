@@ -1,6 +1,7 @@
 import time, smtplib, ssl
 from selenium import webdriver
 from address import address_set
+import os
 
 
 wating_sec = 0.5
@@ -54,7 +55,7 @@ naver_set_string = naver_set_string.encode('utf8')
 
 
 port = 465
-password = 'mlhwdtmjcvzmugof'
+password = os.environ.get('EMAIL_PASSWORD')
 
 context = ssl.create_default_context()
 

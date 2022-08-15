@@ -40,7 +40,7 @@
         import smtplib, ssl
 
         port = 465
-        password = 'mlhwdtmjcvzmugof'
+        password = os.environ.get('EMAIL_PASSWORD')
 
         context = ssl.create_default_context()
 

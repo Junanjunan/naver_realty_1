@@ -3,6 +3,7 @@ from selenium import webdriver
 from urllib.parse import urlsplit, parse_qs
 # from address import address_set
 from address import my_list_dict
+import os
 
 
 wating_sec = 0.5
@@ -108,7 +109,7 @@ for url in url_list:
     print(total_dict_string)
 
     port = 465
-    password = 'mlhwdtmjcvzmugof'
+    password = os.environ.get('EMAIL_PASSWORD')
 
     context = ssl.create_default_context()
 

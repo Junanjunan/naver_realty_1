@@ -1,15 +1,16 @@
 import email, smtplib, ssl
-
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import os
+
 
 subject = "An email with attachment from Python"
 body = "This is an email with attachment sent from Python"
 sender_email = "taltalmailing@gmail.com"
 receiver_email = "jjj1305@hanmail.net"
-password = 'mlhwdtmjcvzmugof'
+password = os.environ.get('EMAIL_PASSWORD')
 
 # Create a multipart message and set headers
 message = MIMEMultipart()

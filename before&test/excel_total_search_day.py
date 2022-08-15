@@ -115,36 +115,4 @@ for url in url_dict:
     
     df1.to_excel('{}.xlsx'.format(url))
 
-
-    # for i in total_dict:
-    #     f_day = total_dict[i]['광고확인일']
-    #     f_type = total_dict[i]['거래방식']
-    #     f_price = total_dict[i]['가격']
-    #     f_spec = total_dict[i]['특징']
-    #     f_realtor = total_dict[i]['중개사']
-    #     f_url = total_dict[i]['url']
-    #     f_room = total_dict[i]['호실']
-    #     f_phone = total_dict[i]['연락처']
-
-    #     # total_dict_string += f'{i}, 장부: 호실 - {f_room}, 연락처 - {f_phone} / 네이버:  {f_type}, {f_price}, {f_spec}, {f_realtor} \n'
-    #     # total_dict_string += f'{i}, {f_room}(호), {f_phone}, {f_type}, {f_price}, {f_spec}, {f_realtor} \n'
-    #     total_dict_string += f'{i}, \n{f_day}, \n{f_room}(호), \n{f_phone}, \n{f_type}, \n{f_price}, \n{f_spec}, \n{f_realtor} \n\n'
-    #     # total_dict_string += f_url -- url 전송이 안됨...
-
-    # total_dict_string = total_dict_string.encode('utf8')
-
-    # print(total_dict_string)
-
-    # port = 465
-    # password = 'mlhwdtmjcvzmugof'
-
-    # context = ssl.create_default_context()
-
-    # with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-    #     server.login("taltalmailing@gmail.com", password)
-    #     server.sendmail(
-    #         'taltalmailing@gmail.com', 
-    #         'jjj1305@hanmail.net', 
-    #         total_dict_string)
-
 driver.close()

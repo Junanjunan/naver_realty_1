@@ -2,6 +2,7 @@ import time, datetime, yagmail
 import pandas as pd
 from selenium import webdriver
 from address import my_list_dict
+import os
 
 
 waiting_sec = 0.5
@@ -155,7 +156,7 @@ jayang_oneroom = pd.read_excel('자양원룸-{}.xlsx'.format(datetime.date.today
 """ mailing """
 
 sender = 'taltalmailing@gmail.com'
-password = 'mlhwdtmjcvzmugof'
+password = os.environ.get('EMAIL_PASSWORD')
 receiver = 'jjj1305@hanmail.net'
 subject = '네이버매물-{}'.format(datetime.date.today())
 body = '{} 네이버 매물 정리'.format(datetime.date.today())
